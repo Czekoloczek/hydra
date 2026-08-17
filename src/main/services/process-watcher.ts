@@ -295,7 +295,7 @@ export const watchProcesses = async () => {
 
   if (!games.length) return;
 
-const { processMap, winePrefixMap, steamAppIds, linuxProcesses } =
+  const { processMap, winePrefixMap, steamAppIds, linuxProcesses } =
     await getSystemProcessMap();
 
   const steamAppIdSet = new Set(steamAppIds);

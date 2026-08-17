@@ -160,9 +160,7 @@ export function UserProfileContextProvider({
           setUserStats({
             libraryCount: stats.libraryCount ?? 0,
             friendsCount: stats.friendsCount ?? 0,
-            totalPlayTimeInSeconds: toPercentile(
-              stats.totalPlayTimeInSeconds
-            ),
+            totalPlayTimeInSeconds: toPercentile(stats.totalPlayTimeInSeconds),
             achievementsPointsEarnedSum: stats.achievementsPointsEarnedSum
               ? toPercentile(stats.achievementsPointsEarnedSum)
               : undefined,

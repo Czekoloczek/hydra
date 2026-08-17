@@ -345,7 +345,7 @@ export class NativeAddon {
     const drained = this.pendingResolvers.splice(0);
     for (const pending of drained) {
       if (pending.type === "list") pending.resolve([]);
-else
+      else
         pending.resolve({
           processMap: {},
           winePrefixMap: {},

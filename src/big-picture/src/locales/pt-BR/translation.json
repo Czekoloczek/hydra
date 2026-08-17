@@ -713,7 +713,7 @@
     "steamgriddb_fetch_failed": "Falha ao carregar recursos do SteamGridDB",
     "steamgriddb_artwork_updated": "Arte atualizada",
     "steamgriddb_artwork_reset": "Arte redefinida para o padrão",
-"edit_game_modal_sgdb_search": "Buscar no SteamGridDB",
+    "edit_game_modal_sgdb_search": "Buscar no SteamGridDB",
     "sgdb_no_results": "Nenhum resultado encontrado.",
     "edit_game_modal_sgdb_no_results": "Nenhuma arte do SteamGridDB encontrada para este jogo.",
     "Main Story": "História Principal",
