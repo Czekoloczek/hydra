@@ -1,4 +1,11 @@
-import { app, BrowserWindow, net, powerMonitor, protocol } from "electron";
+import {
+  app,
+  BrowserWindow,
+  crashReporter,
+  net,
+  powerMonitor,
+  protocol,
+} from "electron";
 import updater from "electron-updater";
 import i18n from "i18next";
 import path from "node:path";
@@ -22,6 +29,10 @@ import { launchGame, openClassicsGame } from "./helpers";
 import { refreshPortableShortcutLauncher } from "./helpers/shortcut-launch";
 import { lookupCachedPlatform } from "./events/library/get-library";
 import { loadState } from "./main";
+
+crashReporter.start({
+  uploadToServer: false,
+});
 
 const { autoUpdater } = updater;
 
@@ -138,6 +149,8 @@ const initializeApp = async () => {
   refreshPortableShortcutLauncher();
   electronApp.setAppUserModelId("gg.hydralauncher.hydra");
 
+  logger.info("Crash dumps directory", app.getPath("crashDumps"));
+
   protocol.handle("local", (request) => {
     const filePath = request.url.slice("local:".length);
     return net.fetch(url.pathToFileURL(decodeURI(filePath)).toString());
@@ -252,6 +265,23 @@ const initializeApp = async () => {
 
 app.on("browser-window-created", (_, window) => {
   optimizer.watchWindowShortcuts(window);
+});
+
+app.on("child-process-gone", (_event, details) => {
+  logger.error("Child process gone", {
+    type: details.type,
+    reason: details.reason,
+    exitCode: details.exitCode,
+    serviceName: details.serviceName,
+    name: details.name,
+  });
+});
+
+app.on("render-process-gone", (_event, _webContents, details) => {
+  logger.error("Render process gone", {
+    reason: details.reason,
+    exitCode: details.exitCode,
+  });
 });
 
 const handleRunGame = async (shop: GameShop, objectId: string) => {
@@ -448,6 +478,10 @@ app.on("before-quit", async (e) => {
     canAppBeClosed = true;
     app.quit();
   }
+});
+
+app.on("will-quit", () => {
+  logger.info("Application will quit");
 });
 
 app.on("activate", () => {
